@@ -8,5 +8,3 @@ export const appRouter = (userModel : IUserModel) => {
     router.use(userRouter(userModel));
     return router;
 }
-
-//postgresql://postgres:NGxniPfhNMdGdLdDxKNzdnvVrCpKWpYq@autorack.proxy.rlwy.net:32113/railway

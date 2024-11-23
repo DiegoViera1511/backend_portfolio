@@ -9,8 +9,15 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 3000;
 
-app.use(cors());
+app.disable("x-powered-by");
 app.use(express.json());
+
+const corsOptions = {
+    origin: 'https://vieraportfoliowithlogin.netlify.app',
+    optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
 
 const userModel = new UserModel();
 
