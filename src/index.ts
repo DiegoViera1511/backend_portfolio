@@ -24,7 +24,7 @@ app.options('/', (req, res) => {
     res.send(200)
 })
 
-app.use(cors(corsOptions));
+app.use(cors());
 
 const userModel = new UserModel();
 
