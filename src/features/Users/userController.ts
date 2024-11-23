@@ -15,6 +15,11 @@ export class UserController {
     create = async (req: Request, res: Response) => {
         try {
             const newUser: NewUser = validateUser(req.body);
+            const user = await this.userModel.getUserByName(newUser.name);
+            if (user){
+                res.status(400).json({message: 'User already exists'});
+                return;
+            }
             newUser.password = await bcrypt.hash(newUser.password, 10);
             await this.userModel.create(newUser);
             res.status(201).json(newUser);
