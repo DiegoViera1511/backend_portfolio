@@ -1,8 +1,10 @@
 import {IUserModel} from "../Interfaces/IUserModel";
 import {NewUser} from "../../db/schema/userSchema";
-import {validateUser} from "./utils";
+import {createToken, isValidToken, validateUser} from "./utils";
 import {Request, Response} from "express";
 import bcrypt from "bcrypt"
+import {db} from "../../db/config/config";
+import {UserModel} from "./userModel";
 export class UserController {
     userModel: IUserModel;
 
@@ -34,9 +36,30 @@ export class UserController {
                 res.status(400).json({message: 'Password is incorrect'});
                 return;
             }
-            res.status(200).json(user);
+            const token = createToken(user.name);
+            await this.userModel.updateUserToken(user.name, token);
+            res.status(200).json(token);
         } catch (e) {
             res.status(500).json({message: (e instanceof Error) ? e.message : 'An unknown error occurred'});
+        }
+    }
+    
+    getUserByToken = async (req: Request, res: Response) => {
+        try {
+            const token = req.headers.authorization?.split(' ')[1];
+            if (!token) {
+                res.status(404).json({message: 'Token not found'});
+                return;
+            }
+            const user = await this.userModel.getUserByToken(token);
+            if (!user) {
+                res.status(404).json({message: 'User not found'});
+                return;
+            }
+            isValidToken(token);
+            res.status(200).json(user);
+        } catch (e) {
+            res.status(400).json({message: (e instanceof Error) ? e.message : 'An unknown error occurred'});
         }
     }
 }

@@ -19,4 +19,19 @@ export class UserModel implements IUserModel {
         }
         return user[0];
     }
+    async getUserByToken(token : string) : Promise<User | null>{
+        const user = await db
+            .select()
+            .from(users)
+            .where(eq(users.token, token))
+            .limit(1);
+        if (!user.length) {
+            return null
+        }
+        return user[0];
+    }
+
+    async updateUserToken(name: string, token: string): Promise<void> {
+        await db.update(users).set({token: token}).where(eq(users.name, name));
+    }
 }

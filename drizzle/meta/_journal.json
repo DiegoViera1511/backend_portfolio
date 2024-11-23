@@ -15,6 +15,13 @@
       "when": 1732328036748,
       "tag": "0001_handy_susan_delgado",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1732335605169,
+      "tag": "0002_freezing_tiger_shark",
+      "breakpoints": true
     }
   ]
 }

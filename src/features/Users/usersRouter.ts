@@ -9,6 +9,7 @@ export const userRouter = (userModel: IUserModel) => {
     
     router.post('/users', userController.create);
     router.post('/users/logIn', userController.getUserByName);
+    router.get('/protected' , userController.getUserByToken)
 
     return router
 }
