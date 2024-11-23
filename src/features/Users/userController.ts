@@ -5,6 +5,7 @@ import {Request, Response} from "express";
 import bcrypt from "bcrypt"
 import {db} from "../../db/config/config";
 import {UserModel} from "./userModel";
+
 export class UserController {
     userModel: IUserModel;
 
@@ -16,7 +17,7 @@ export class UserController {
         try {
             const newUser: NewUser = validateUser(req.body);
             const user = await this.userModel.getUserByName(newUser.name);
-            if (user){
+            if (user) {
                 res.status(400).json({message: 'User already exists'});
                 return;
             }
@@ -30,15 +31,15 @@ export class UserController {
 
     getUserByName = async (req: Request, res: Response) => {
         try {
-            const reqUser : NewUser = validateUser(req.body);
+            const reqUser: NewUser = validateUser(req.body);
             const user = await this.userModel.getUserByName(reqUser.name);
             if (!user) {
                 res.status(404).json({message: 'User not found'});
                 return;
             }
-            const isCorrectPassword : boolean = await bcrypt.compare(reqUser.password, user.password);
-            if(!isCorrectPassword){
-                res.status(400).json({message: 'Password is incorrect'});
+            const isCorrectPassword: boolean = await bcrypt.compare(reqUser.password, user.password);
+            if (!isCorrectPassword) {
+                res.status(404).json({message: 'Password is incorrect'});
                 return;
             }
             const token = createToken(user.name);
@@ -48,7 +49,7 @@ export class UserController {
             res.status(500).json({message: (e instanceof Error) ? e.message : 'An unknown error occurred'});
         }
     }
-    
+
     getUserByToken = async (req: Request, res: Response) => {
         try {
             const token = req.headers.authorization?.split(' ')[1];
