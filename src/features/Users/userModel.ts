@@ -35,3 +35,5 @@ export class UserModel implements IUserModel {
         await db.update(users).set({token: token}).where(eq(users.name, name));
     }
 }
+
+

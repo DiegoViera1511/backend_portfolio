@@ -14,8 +14,6 @@ export class UserController {
     };
 
     create = async (req: Request, res: Response) => {
-        res.header('Access-Control-Allow-Origin', '*');
-        res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
         try {
             const newUser: NewUser = validateUser(req.body);
             const user = await this.userModel.getUserByName(newUser.name);
@@ -32,8 +30,6 @@ export class UserController {
     }
 
     getUserByName = async (req: Request, res: Response) => {
-        res.header('Access-Control-Allow-Origin', '*');
-        res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
         try {
             const reqUser: NewUser = validateUser(req.body);
             const user = await this.userModel.getUserByName(reqUser.name);
@@ -55,8 +51,6 @@ export class UserController {
     }
 
     getUserByToken = async (req: Request, res: Response) => {
-        res.header('Access-Control-Allow-Origin', '*');
-        res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
         try {
             const token = req.headers.authorization?.split(' ')[1];
             if (!token) {

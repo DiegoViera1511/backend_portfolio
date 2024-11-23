@@ -11,19 +11,6 @@ const port = process.env.PORT || 3000;
 
 app.disable("x-powered-by");
 app.use(express.json());
-
-const corsOptions = {
-    origin: 'https://vieraportfoliowithlogin.netlify.app',
-    optionsSuccessStatus: 200
-};
-app.options('/', (req, res) => {
-    //añadir cabeceras para hacer acciones con la api
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-    //Para hacer la acción hay que hacer res.send()
-    res.send(200)
-})
-
 app.use(cors());
 
 const userModel = new UserModel();
